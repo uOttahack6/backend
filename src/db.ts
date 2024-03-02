@@ -27,3 +27,18 @@ export const scores = async () => {
         throw err;
     }
 }
+
+// Function to check and process tasks scheduled for today
+export const checkScheduledTasks = async () => {
+    const today = new Date().toISOString().split('T')[0]; // Get today's date in 'YYYY-MM-DD' format
+    try {
+        const result = await pool.query(
+            'SELECT * FROM Tasks WHERE DatePublished = $1',
+            [today]
+        );
+        const tasksToProcess = result.rows;
+        return tasksToProcess;
+    } catch (error) {
+        console.error('Error checking scheduled tasks:', error);
+    }
+};
