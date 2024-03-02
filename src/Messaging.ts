@@ -9,6 +9,7 @@ function messaging() {
     // Connect to the message broker
     function connectWithPromise() {
         return new Promise((resolve, reject) => {
+            console.log(options)
             if (!options.host) {
                 reject("No host defined");
             } else {
