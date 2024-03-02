@@ -22,12 +22,12 @@ expressApp.get('/', (req: Request, res: Response) => {
     res.send('Hello uOttaHack!');
 });
 
-expressApp.get('/users', async (req: Request, res: Response) => {
+expressApp.get('/testing/users', async (req: Request, res: Response) => {
     const result = await users();
     res.json(result.rows);
 });
 
-expressApp.get('/scores', async (req: Request, res: Response) => {
+expressApp.get('/testing/scores', async (req: Request, res: Response) => {
     const result = await scores();
     res.json(result.rows);
 });
@@ -36,13 +36,6 @@ expressApp.get('/api/private', checkJwt, function (req: Request, res: Response) 
     res.json({
         message: 'Hello from a private endpoint! You need to be authenticated to see this.'
     });
-});
-
-expressApp.post('/publish', (req: Request, res: Response) => {
-    let message = JSON.stringify({ text: "Hello" });
-    let topic = "SomeTopic";
-    app.publishMessage(topic, message);
-    res.status(200).send('{"result":"ok"}');
 });
 
 function initializeApplication() {
@@ -65,7 +58,7 @@ cron.schedule('0 9 * * *', () => {
 });
  */
 
-expressApp.get('/scheduledTasks', (req: Request, res: Response) => {
+expressApp.get('/testing/scheduledTasks', (req: Request, res: Response) => {
     scheduledTask();
     res.status(200).send('{"result":"ok"}');
 });
