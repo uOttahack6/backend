@@ -3,6 +3,7 @@ dotenv.config();
 import express, { Express, Request, Response } from 'express';
 import cors from 'cors';
 import { auth, requiredScopes } from 'express-oauth2-jwt-bearer';
+import { scores, users } from './db';
 
 const app: Express = express();
 const port = 5000;
@@ -16,7 +17,17 @@ const checkJwt = auth({
 });
 
 app.get('/', (req: Request, res: Response) => {
-    res.send('Express + TypeScript Server');
+    res.send('Hello uOttaHack!');
+});
+
+app.get('/users', async (req: Request, res: Response) => {
+    const result = await users();
+    res.json(result.rows);
+});
+
+app.get('/scores', async (req: Request, res: Response) => {
+    const result = await scores();
+    res.json(result.rows);
 });
 
 app.get('/api/private', checkJwt, function (req: Request, res: Response) {
