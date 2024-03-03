@@ -50,3 +50,20 @@ INSERT INTO Scores (UserID, TaskID, DateAchieved) VALUES
   (2, 3, '2024-03-02'),
   (3, 4, '2024-03-03'),
   (3, 5, '2024-03-04');
+
+--LeaderboardUpdateTrigger
+CREATE OR REPLACE FUNCTION notify_leaderboard_update()
+RETURNS TRIGGER AS $$
+BEGIN
+  -- Notify the leaderboard update to a channel named 'leaderboard_update'
+  PERFORM pg_notify('leaderboard_update', '');
+
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER scores_update_trigger
+AFTER INSERT OR UPDATE OR DELETE
+ON Scores
+FOR EACH ROW
+EXECUTE FUNCTION notify_leaderboard_update();
