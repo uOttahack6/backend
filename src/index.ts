@@ -41,14 +41,12 @@ expressApp.post('/api/private/TaskDone', (req: Request, res: Response) => {
     console.log('Task done by user', userId, 'Task ID:', taskId);
 });
 
-expressApp.get('/api/private/getScore', (req: Request, res: Response) => {
+expressApp.get('/api/private/getScore/:userid', async (req: Request, res: Response) => {
     console.log(req);
-    const userId: string = req.body;
-    db.getUserScore(userId).then((score) => {
-        res.json(score);
-    }).catch((error) => {
-        res.status(500).send
-    });
+    const userId: string = req.params.userid;
+    const result = await db.getUserScore(userId);
+    const score = parseInt(result.rows[0].totalscore);
+    res.send({ totalscore: score });
 });
 
 function initializeApplication() {
@@ -59,7 +57,6 @@ initializeApplication();
 const scheduledTask = async () => {
     console.log('Checking for scheduled tasks...');
     db.checkScheduledTasks().then((tasks) => {
-        console.log('Tasks to process:', tasks);
         app.publishMessage('ScheduledTasks', JSON.stringify(tasks));
     }).catch((error) => {
         console.error('Error checking scheduled tasks:', error);
@@ -74,6 +71,11 @@ cron.schedule('0 9 * * *', () => {
 expressApp.get('/testing/scheduledTasks', (req: Request, res: Response) => {
     scheduledTask();
     res.status(200).send('{"result":"ok"}');
+});
+
+expressApp.get('/testing/leaderboard', async (req: Request, res: Response) => {
+    const leaderboard = await db.getLeaderboard();
+    res.json(leaderboard);
 });
 
 expressApp.listen(port, () => {

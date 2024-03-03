@@ -62,7 +62,7 @@ export class dbHandler {
 
     public getUserScore = async (userId: string) => {
         try {
-            const text = `SELECT * FROM scores WHERE user_id = $1;`;
+            const text = `SELECT * FROM leaderboard WHERE userid = $1;`;
             return this.pool.query(text, [userId]);
         } catch (err) {
             console.log(err);
@@ -85,7 +85,7 @@ export class dbHandler {
         }
     };
 
-    private getLeaderboard = async () => {
+    public getLeaderboard = async () => {
         try {
             const text = `SELECT * FROM leaderboard;`;
             const result = await this.pool.query(text);
@@ -97,13 +97,13 @@ export class dbHandler {
     }
 
     public checkUser = async (username: string) => {
-        try{
+        try {
             const text = 'SELECT * FROM users WHERE username = $1'
             return this.pool.query(text, [username]);
 
-        }catch(err){
-           console.log(err)
-           throw err;
+        } catch (err) {
+            console.log(err)
+            throw err;
         }
     }
 
@@ -111,11 +111,11 @@ export class dbHandler {
         try {
             const text = 'INSERT INTO Users (UserName) VALUES ($1)'
             return this.pool.query(text, [username]);
-          } catch (err) {
+        } catch (err) {
             console.log(err)
             throw err;
-          }
+        }
     }
-    
-    
+
+
 }
