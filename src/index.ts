@@ -15,11 +15,6 @@ expressApp.use(cors());
 
 const db = new dbHandler(app);
 
-const checkJwt = auth({
-    audience: process.env.REACT_APP_URL,
-    issuerBaseURL: process.env.AUTH0_DOMAIN
-});
-
 expressApp.get('/', (req: Request, res: Response) => {
     res.send('Hello uOttaHack!');
 });
@@ -34,20 +29,21 @@ expressApp.get('/testing/scores', async (req: Request, res: Response) => {
     res.json(result.rows);
 });
 
-expressApp.get('/api/private', checkJwt, function (req: Request, res: Response) {
+expressApp.get('/api/private', (req: Request, res: Response) => {
     res.json({
         message: 'Hello from a private endpoint! You need to be authenticated to see this.'
     });
 });
 
-expressApp.post('/api/private/TaskDone', checkJwt, function (req: Request, res: Response) {
+expressApp.post('/api/private/TaskDone', (req: Request, res: Response) => {
     const userId: string = req.body.user.sub;
     const taskId: number = req.body.taskId;
     console.log('Task done by user', userId, 'Task ID:', taskId);
 });
 
-expressApp.get('/api/private/getScore', checkJwt, function (req: Request, res: Response) {
-    const userId: string = req.body.user.sub;
+expressApp.get('/api/private/getScore', (req: Request, res: Response) => {
+    console.log(req);
+    const userId: string = req.body;
     db.getUserScore(userId).then((score) => {
         res.json(score);
     }).catch((error) => {
