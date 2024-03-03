@@ -32,21 +32,21 @@ CREATE VIEW Leaderboard AS
     GROUP BY Users.UserID, UserName
     ORDER BY TotalScore DESC;
 
--- Insert sample users
+-- Insert sample users for sustainability game
 INSERT INTO Users (UserName) VALUES
-  ('User1'),
-  ('User2'),
-  ('User3');
+('GreenPlayer1'),
+('EcoChampion2'),
+('EcoWarrior3');
 
--- Insert sample tasks
+-- Insert sample sustainability tasks
 INSERT INTO Tasks (TaskName, TaskDescription, TaskScore, DatePublished, TaskType, DateExpire) VALUES
-  ('Task1', 'Description for Task1', 100, '2024-03-01', 'daily', '2024-03-10'),
-  ('Task2', 'Description for Task2', 150, '2024-03-02', 'long', '2024-03-15'),
-  ('Task3', 'Description for Task3', 120, '2024-03-03', 'totd', NULL),
-  ('Task4', 'Description for Task4', 200, '2024-03-04', 'daily', '2024-03-12'),
-  ('Task5', 'Description for Task5', 180, '2024-03-05', 'long', '2024-03-20');
+('RecycleQuest1', 'Complete a recycling challenge', 100, '2024-03-01', 'daily', '2024-03-10'),
+('EnergySaverQuest2', 'Reduce energy consumption for a day', 150, '2024-03-02', 'long', '2024-03-15'),
+('GreenCommuteQuest3', 'Use eco-friendly transportation today', 120, '2024-03-03', 'totd', NULL),
+('ZeroWasteQuest4', 'Achieve a day with zero waste', 200,'2024-03-03', 'daily', '2024-03-12'),
+('SustainableMealQuest5', 'Prepare a sustainable meal', 180, '2024-03-03','long', '2024-03-20');
 
--- Insert sample scores
+-- Insert sample scores for sustainability game
 INSERT INTO Scores (UserID, TaskID, DateAchieved) VALUES
   (1, 1, '2024-03-02'),
   (1, 2, '2024-03-03'),
@@ -54,23 +54,23 @@ INSERT INTO Scores (UserID, TaskID, DateAchieved) VALUES
   (3, 4, '2024-03-03'),
   (3, 5, '2024-03-04');
 
--- Insert more sample users
+-- Insert more sample users for sustainability game
 INSERT INTO Users (UserName) VALUES
-  ('User4'),
-  ('User5'),
-  ('User6'),
-  ('User7'),
-  ('User8');
+('NatureGuardian4'),
+('EcoEnthusiast5'),
+('SustainableExplorer6'),
+('EcoAdvocate7'),
+('GreenActivist8');
 
--- Insert more sample tasks
+-- Insert more sample sustainability tasks
 INSERT INTO Tasks (TaskName, TaskDescription, TaskScore, DatePublished, TaskType, DateExpire) VALUES
-  ('Task6', 'Description for Task6', 120, '2024-03-06', 'daily', '2024-03-14'),
-  ('Task7', 'Description for Task7', 180, '2024-03-07', 'long', '2024-03-18'),
-  ('Task8', 'Description for Task8', 150, '2024-03-08', 'totd', NULL),
-  ('Task9', 'Description for Task9', 200, '2024-03-09', 'daily', '2024-03-20'),
-  ('Task10', 'Description for Task10', 160, '2024-03-10', 'long', '2024-03-25');
+('WaterConservationQuest6', 'Conserve water for a day', 120, '2024-03-03', 'daily', '2024-03-14'),
+('GreenTransportQuest7', 'Promote green transportation', 180, '2024-03-03', 'long', '2024-03-18'),
+('EcoAwarenessQuest8', 'Spread eco-awareness today', 150,'2024-03-07', 'totd', NULL),
+('RenewableEnergyQuest9', 'Support renewable energy sources', 200,'2024-03-07', 'daily', '2024-03-20'),
+('EcoFriendlyChallenge10', 'Engage in an eco-friendly challenge', 160,'2024-03-07', 'long', '2024-03-25');
 
--- Insert more sample scores
+-- Insert more sample scores for sustainability game
 INSERT INTO Scores (UserID, TaskID, DateAchieved) VALUES
   (1, 6, '2024-03-07'),
   (1, 7, '2024-03-08'),
