@@ -46,6 +46,15 @@ expressApp.post('/api/private/TaskDone', checkJwt, function (req: Request, res: 
     console.log('Task done by user', userId, 'Task ID:', taskId);
 });
 
+expressApp.get('/api/private/getScore', checkJwt, function (req: Request, res: Response) {
+    const userId: string = req.body.user.sub;
+    db.getUserScore(userId).then((score) => {
+        res.json(score);
+    }).catch((error) => {
+        res.status(500).send
+    });
+});
+
 function initializeApplication() {
     app.initialize();
 }

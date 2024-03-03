@@ -61,6 +61,16 @@ export class dbHandler {
         }
     }
 
+    public getUserScore = async (userId: string) => {
+        try {
+            const text = `SELECT * FROM scores WHERE user_id = $1;`;
+            return this.pool.query(text, [userId]);
+        } catch (err) {
+            console.log(err);
+            throw err;
+        }
+    }
+
     // Function to check and process tasks scheduled for today
     public checkScheduledTasks = async () => {
         const today = new Date().toISOString().split('T')[0]; // Get today's date in 'YYYY-MM-DD' format
