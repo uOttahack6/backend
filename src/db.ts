@@ -96,4 +96,27 @@ export class dbHandler {
             throw err;
         }
     }
+
+    public checkUser = async (username: string) => {
+        try{
+            const text = 'SELECT * FROM users WHERE username = $1'
+            return this.pool.query(text, [username]);
+
+        }catch(err){
+           console.log(err)
+           throw err;
+        }
+    }
+
+    public addUser = async (username: string) => {
+        try {
+            const text = 'INSERT INTO Users (UserName) VALUES ($1)'
+            return this.pool.query(text, [username]);
+          } catch (err) {
+            console.log(err)
+            throw err;
+          }
+    }
+    
+    
 }
