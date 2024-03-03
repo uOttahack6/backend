@@ -4,7 +4,7 @@ import cors from 'cors';
 import express, { Express, Request, Response } from 'express';
 import { auth, requiredScopes } from 'express-oauth2-jwt-bearer';
 import app from './App';
-import { checkScheduledTasks, scores, users } from './db';
+import { dbHandler } from './db';
 //import cron from 'node-cron';
 
 const expressApp: Express = express();
@@ -12,6 +12,8 @@ const port = 5000;
 
 expressApp.use(express.json());
 expressApp.use(cors());
+
+const db = new dbHandler(app);
 
 const checkJwt = auth({
     audience: process.env.REACT_APP_URL,
@@ -23,12 +25,12 @@ expressApp.get('/', (req: Request, res: Response) => {
 });
 
 expressApp.get('/testing/users', async (req: Request, res: Response) => {
-    const result = await users();
+    const result = await db.users();
     res.json(result.rows);
 });
 
 expressApp.get('/testing/scores', async (req: Request, res: Response) => {
-    const result = await scores();
+    const result = await db.scores();
     res.json(result.rows);
 });
 
@@ -38,6 +40,12 @@ expressApp.get('/api/private', checkJwt, function (req: Request, res: Response) 
     });
 });
 
+expressApp.post('/api/private/TaskDone', checkJwt, function (req: Request, res: Response) {
+    const userId: string = req.body.user.sub;
+    const taskId: number = req.body.taskId;
+    console.log('Task done by user', userId, 'Task ID:', taskId);
+});
+
 function initializeApplication() {
     app.initialize();
 }
@@ -45,7 +53,7 @@ initializeApplication();
 
 const scheduledTask = async () => {
     console.log('Checking for scheduled tasks...');
-    checkScheduledTasks().then((tasks) => {
+    db.checkScheduledTasks().then((tasks) => {
         console.log('Tasks to process:', tasks);
         app.publishMessage('ScheduledTasks', JSON.stringify(tasks));
     }).catch((error) => {
