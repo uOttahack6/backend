@@ -21,8 +21,7 @@ export class dbHandler {
             port: 5432,
         });
         this.solaceapp = app;
-    }
-    private connectWithPromise() {
+
         this.client.connect();
         this.client.query('LISTEN leaderboard_update');
         this.client.on('notification', (msg) => {
@@ -76,7 +75,7 @@ export class dbHandler {
         const today = new Date().toISOString().split('T')[0]; // Get today's date in 'YYYY-MM-DD' format
         try {
             const result = await this.pool.query(
-                'SELECT * FROM Tasks WHERE DatePublished = $1',
+                'SELECT * FROM Tasks WHERE DatePublished <= $1 AND (DateExpire IS NULL OR DateExpire >= $1)',
                 [today]
             );
             const tasksToProcess = result.rows;
